@@ -4,6 +4,9 @@ Este es un porfolio creado con c# y WebSocket utilizando visual studio.
 ## Autor 🖊️
 **Sergi Taberner**
 
+## ver ejemplo en vivo
+- [https://github.com/sergiTabernerR/mi-portafolio/](https://github.com/sergiTabernerR/mi-portafolio/)
+
 * [LinkedIn](https://www.linkedin.com/in/sergitabernerr/)
 
 ## Instalacion
