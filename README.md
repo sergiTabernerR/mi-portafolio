@@ -1,7 +1,7 @@
-## Descripcion
+## Descripcion 🏝️
 Este es un porfolio creado con c# y WebSocket utilizando visual studio. 
 
-## Autor --
+## Autor 🖊️
 **Sergi Taberner**
 
 * [LinkedIn](https://www.linkedin.com/in/sergitabernerr/)
