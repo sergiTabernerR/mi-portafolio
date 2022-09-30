@@ -7,7 +7,7 @@ Este es un porfolio creado con c# y WebSocket utilizando visual studio.
 * [LinkedIn](https://www.linkedin.com/in/sergitabernerr/)
 
 ## ver ejemplo en vivo
-- [https://github.com/sergiTabernerR/mi-portafolio/](https://github.com/sergiTabernerR/mi-portafolio/)
+- [https://sergitabernerr.github.io/mi-portafolio/](https://sergitabernerr.github.io/mi-portafolio/)
 
 
 ## Instalacion
