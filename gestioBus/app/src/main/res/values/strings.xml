@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">gestioBus</string>
+    <string name="title_activity_ruta_paradas">rutaParadas</string>
+</resources>

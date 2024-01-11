@@ -1,0 +1,4 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/tablaParades" android:title="Tabla de parades" app:showAsAction="ifRoom"/>
+    <item android:id="@+id/secuenciaParades" android:title="Secuencia Parades" app:showAsAction="ifRoom"/>
+</menu>
