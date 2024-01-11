@@ -1,0 +1,527 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GestioBusModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Conductor">
+          <Key>
+            <PropertyRef Name="DNI" />
+          </Key>
+          <Property Name="DNI" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="nomComplet" Type="varchar" MaxLength="45" />
+          <Property Name="telefon" Type="varchar" MaxLength="45" />
+          <Property Name="email" Type="varchar" MaxLength="100" />
+          <Property Name="idLinia" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Horari">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idParada" Type="int" Nullable="false" />
+          <Property Name="idLinia" Type="int" Nullable="false" />
+          <Property Name="hora" Type="time" Precision="7" Nullable="false" />
+          <Property Name="direccio" Type="tinyint" />
+          <Property Name="tipus" Type="int" Nullable="false" />
+          <Property Name="dataIniciVigent" Type="datetime" Nullable="false" />
+          <Property Name="dataFinalVigent" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InteresTuristic">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="urlImg" Type="text" />
+          <Property Name="urlWeb" Type="text" />
+          <Property Name="direccio" Type="varchar" MaxLength="45" />
+          <Property Name="idParada" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Linia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="45" />
+          <Property Name="descripcio" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="LiniaParadaHora">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idParada" Type="int" Nullable="false" />
+          <Property Name="idLinia" Type="int" Nullable="false" />
+          <Property Name="numeroParada" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parada">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coord" Type="geography" />
+          <Property Name="nom" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="Transport">
+          <Key>
+            <PropertyRef Name="matricula" />
+          </Key>
+          <Property Name="matricula" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idLinia" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userName" />
+          </Key>
+          <Property Name="userName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="password" Type="varbinary" MaxLength="256" />
+        </EntityType>
+        <Association Name="fk_Conductor_Linia1">
+          <End Role="Linia" Type="Self.Linia" Multiplicity="1" />
+          <End Role="Conductor" Type="Self.Conductor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Conductor">
+              <PropertyRef Name="idLinia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Horari1">
+          <End Role="Parada" Type="Self.Parada" Multiplicity="1" />
+          <End Role="Horari" Type="Self.Horari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parada">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Horari">
+              <PropertyRef Name="idParada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Horari2">
+          <End Role="Linia" Type="Self.Linia" Multiplicity="1" />
+          <End Role="Horari" Type="Self.Horari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Horari">
+              <PropertyRef Name="idLinia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_InteresTuristic_Parada1">
+          <End Role="Parada" Type="Self.Parada" Multiplicity="1" />
+          <End Role="InteresTuristic" Type="Self.InteresTuristic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parada">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="InteresTuristic">
+              <PropertyRef Name="idParada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LiniaParadaHora1">
+          <End Role="Parada" Type="Self.Parada" Multiplicity="1" />
+          <End Role="LiniaParadaHora" Type="Self.LiniaParadaHora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parada">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LiniaParadaHora">
+              <PropertyRef Name="idParada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LiniaParadaHora2">
+          <End Role="Linia" Type="Self.Linia" Multiplicity="1" />
+          <End Role="LiniaParadaHora" Type="Self.LiniaParadaHora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LiniaParadaHora">
+              <PropertyRef Name="idLinia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Transport_Linia1">
+          <End Role="Linia" Type="Self.Linia" Multiplicity="1" />
+          <End Role="Transport" Type="Self.Transport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transport">
+              <PropertyRef Name="idLinia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GestioBusModelStoreContainer">
+          <EntitySet Name="Conductor" EntityType="Self.Conductor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Horari" EntityType="Self.Horari" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InteresTuristic" EntityType="Self.InteresTuristic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Linia" EntityType="Self.Linia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LiniaParadaHora" EntityType="Self.LiniaParadaHora" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parada" EntityType="Self.Parada" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transport" EntityType="Self.Transport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_Conductor_Linia1" Association="Self.fk_Conductor_Linia1">
+            <End Role="Linia" EntitySet="Linia" />
+            <End Role="Conductor" EntitySet="Conductor" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Horari1" Association="Self.fk_Horari1">
+            <End Role="Parada" EntitySet="Parada" />
+            <End Role="Horari" EntitySet="Horari" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Horari2" Association="Self.fk_Horari2">
+            <End Role="Linia" EntitySet="Linia" />
+            <End Role="Horari" EntitySet="Horari" />
+          </AssociationSet>
+          <AssociationSet Name="fk_InteresTuristic_Parada1" Association="Self.fk_InteresTuristic_Parada1">
+            <End Role="Parada" EntitySet="Parada" />
+            <End Role="InteresTuristic" EntitySet="InteresTuristic" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LiniaParadaHora1" Association="Self.fk_LiniaParadaHora1">
+            <End Role="Parada" EntitySet="Parada" />
+            <End Role="LiniaParadaHora" EntitySet="LiniaParadaHora" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LiniaParadaHora2" Association="Self.fk_LiniaParadaHora2">
+            <End Role="Linia" EntitySet="Linia" />
+            <End Role="LiniaParadaHora" EntitySet="LiniaParadaHora" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Transport_Linia1" Association="Self.fk_Transport_Linia1">
+            <End Role="Linia" EntitySet="Linia" />
+            <End Role="Transport" EntitySet="Transport" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GestioBusModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Conductor">
+          <Key>
+            <PropertyRef Name="DNI" />
+          </Key>
+          <Property Name="DNI" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nomComplet" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="telefon" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="idLinia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Linia" Relationship="Self.fk_Conductor_Linia1" FromRole="Conductor" ToRole="Linia" />
+        </EntityType>
+        <EntityType Name="Horari">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idParada" Type="Int32" Nullable="false" />
+          <Property Name="idLinia" Type="Int32" Nullable="false" />
+          <Property Name="hora" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="direccio" Type="Byte" />
+          <Property Name="tipus" Type="Int32" Nullable="false" />
+          <Property Name="dataIniciVigent" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dataFinalVigent" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Parada" Relationship="Self.fk_Horari1" FromRole="Horari" ToRole="Parada" />
+          <NavigationProperty Name="Linia" Relationship="Self.fk_Horari2" FromRole="Horari" ToRole="Linia" />
+        </EntityType>
+        <EntityType Name="InteresTuristic">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="urlImg" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="urlWeb" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="direccio" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="idParada" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Parada" Relationship="Self.fk_InteresTuristic_Parada1" FromRole="InteresTuristic" ToRole="Parada" />
+        </EntityType>
+        <EntityType Name="Linia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="descripcio" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Conductors" Relationship="Self.fk_Conductor_Linia1" FromRole="Linia" ToRole="Conductor" />
+          <NavigationProperty Name="Horaris" Relationship="Self.fk_Horari2" FromRole="Linia" ToRole="Horari" />
+          <NavigationProperty Name="LiniaParadaHoras" Relationship="Self.fk_LiniaParadaHora2" FromRole="Linia" ToRole="LiniaParadaHora" />
+          <NavigationProperty Name="Transports" Relationship="Self.fk_Transport_Linia1" FromRole="Linia" ToRole="Transport" />
+        </EntityType>
+        <EntityType Name="LiniaParadaHora">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idParada" Type="Int32" Nullable="false" />
+          <Property Name="idLinia" Type="Int32" Nullable="false" />
+          <Property Name="numeroParada" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Linia" Relationship="Self.fk_LiniaParadaHora2" FromRole="LiniaParadaHora" ToRole="Linia" />
+          <NavigationProperty Name="Parada" Relationship="Self.fk_LiniaParadaHora1" FromRole="LiniaParadaHora" ToRole="Parada" />
+        </EntityType>
+        <EntityType Name="Parada">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coord" Type="Geography" />
+          <Property Name="nom" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Horaris" Relationship="Self.fk_Horari1" FromRole="Parada" ToRole="Horari" />
+          <NavigationProperty Name="InteresTuristics" Relationship="Self.fk_InteresTuristic_Parada1" FromRole="Parada" ToRole="InteresTuristic" />
+          <NavigationProperty Name="LiniaParadaHoras" Relationship="Self.fk_LiniaParadaHora1" FromRole="Parada" ToRole="LiniaParadaHora" />
+        </EntityType>
+        <EntityType Name="Transport">
+          <Key>
+            <PropertyRef Name="matricula" />
+          </Key>
+          <Property Name="matricula" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idLinia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Linia" Relationship="Self.fk_Transport_Linia1" FromRole="Transport" ToRole="Linia" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userName" />
+          </Key>
+          <Property Name="userName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="Binary" MaxLength="256" FixedLength="false" />
+        </EntityType>
+        <Association Name="fk_Conductor_Linia1">
+          <End Role="Linia" Type="Self.Linia" Multiplicity="1" />
+          <End Role="Conductor" Type="Self.Conductor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Conductor">
+              <PropertyRef Name="idLinia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Horari1">
+          <End Role="Parada" Type="Self.Parada" Multiplicity="1" />
+          <End Role="Horari" Type="Self.Horari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parada">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Horari">
+              <PropertyRef Name="idParada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Horari2">
+          <End Role="Linia" Type="Self.Linia" Multiplicity="1" />
+          <End Role="Horari" Type="Self.Horari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Horari">
+              <PropertyRef Name="idLinia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_InteresTuristic_Parada1">
+          <End Role="Parada" Type="Self.Parada" Multiplicity="1" />
+          <End Role="InteresTuristic" Type="Self.InteresTuristic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parada">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="InteresTuristic">
+              <PropertyRef Name="idParada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LiniaParadaHora2">
+          <End Role="Linia" Type="Self.Linia" Multiplicity="1" />
+          <End Role="LiniaParadaHora" Type="Self.LiniaParadaHora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LiniaParadaHora">
+              <PropertyRef Name="idLinia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Transport_Linia1">
+          <End Role="Linia" Type="Self.Linia" Multiplicity="1" />
+          <End Role="Transport" Type="Self.Transport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transport">
+              <PropertyRef Name="idLinia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LiniaParadaHora1">
+          <End Role="Parada" Type="Self.Parada" Multiplicity="1" />
+          <End Role="LiniaParadaHora" Type="Self.LiniaParadaHora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parada">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LiniaParadaHora">
+              <PropertyRef Name="idParada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GestioBusEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Conductors" EntityType="Self.Conductor" />
+          <EntitySet Name="Horaris" EntityType="Self.Horari" />
+          <EntitySet Name="InteresTuristics" EntityType="Self.InteresTuristic" />
+          <EntitySet Name="Linias" EntityType="Self.Linia" />
+          <EntitySet Name="LiniaParadaHoras" EntityType="Self.LiniaParadaHora" />
+          <EntitySet Name="Paradas" EntityType="Self.Parada" />
+          <EntitySet Name="Transports" EntityType="Self.Transport" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="fk_Conductor_Linia1" Association="Self.fk_Conductor_Linia1">
+            <End Role="Linia" EntitySet="Linias" />
+            <End Role="Conductor" EntitySet="Conductors" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Horari1" Association="Self.fk_Horari1">
+            <End Role="Parada" EntitySet="Paradas" />
+            <End Role="Horari" EntitySet="Horaris" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Horari2" Association="Self.fk_Horari2">
+            <End Role="Linia" EntitySet="Linias" />
+            <End Role="Horari" EntitySet="Horaris" />
+          </AssociationSet>
+          <AssociationSet Name="fk_InteresTuristic_Parada1" Association="Self.fk_InteresTuristic_Parada1">
+            <End Role="Parada" EntitySet="Paradas" />
+            <End Role="InteresTuristic" EntitySet="InteresTuristics" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LiniaParadaHora2" Association="Self.fk_LiniaParadaHora2">
+            <End Role="Linia" EntitySet="Linias" />
+            <End Role="LiniaParadaHora" EntitySet="LiniaParadaHoras" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Transport_Linia1" Association="Self.fk_Transport_Linia1">
+            <End Role="Linia" EntitySet="Linias" />
+            <End Role="Transport" EntitySet="Transports" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LiniaParadaHora1" Association="Self.fk_LiniaParadaHora1">
+            <End Role="Parada" EntitySet="Paradas" />
+            <End Role="LiniaParadaHora" EntitySet="LiniaParadaHoras" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GestioBusModelStoreContainer" CdmEntityContainer="GestioBusEntities">
+          <EntitySetMapping Name="Conductors">
+            <EntityTypeMapping TypeName="GestioBusModel.Conductor">
+              <MappingFragment StoreEntitySet="Conductor">
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="nomComplet" ColumnName="nomComplet" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="idLinia" ColumnName="idLinia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Horaris">
+            <EntityTypeMapping TypeName="GestioBusModel.Horari">
+              <MappingFragment StoreEntitySet="Horari">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idParada" ColumnName="idParada" />
+                <ScalarProperty Name="idLinia" ColumnName="idLinia" />
+                <ScalarProperty Name="hora" ColumnName="hora" />
+                <ScalarProperty Name="direccio" ColumnName="direccio" />
+                <ScalarProperty Name="tipus" ColumnName="tipus" />
+                <ScalarProperty Name="dataIniciVigent" ColumnName="dataIniciVigent" />
+                <ScalarProperty Name="dataFinalVigent" ColumnName="dataFinalVigent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InteresTuristics">
+            <EntityTypeMapping TypeName="GestioBusModel.InteresTuristic">
+              <MappingFragment StoreEntitySet="InteresTuristic">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="urlImg" ColumnName="urlImg" />
+                <ScalarProperty Name="urlWeb" ColumnName="urlWeb" />
+                <ScalarProperty Name="direccio" ColumnName="direccio" />
+                <ScalarProperty Name="idParada" ColumnName="idParada" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Linias">
+            <EntityTypeMapping TypeName="GestioBusModel.Linia">
+              <MappingFragment StoreEntitySet="Linia">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="descripcio" ColumnName="descripcio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LiniaParadaHoras">
+            <EntityTypeMapping TypeName="GestioBusModel.LiniaParadaHora">
+              <MappingFragment StoreEntitySet="LiniaParadaHora">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idParada" ColumnName="idParada" />
+                <ScalarProperty Name="idLinia" ColumnName="idLinia" />
+                <ScalarProperty Name="numeroParada" ColumnName="numeroParada" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paradas">
+            <EntityTypeMapping TypeName="GestioBusModel.Parada">
+              <MappingFragment StoreEntitySet="Parada">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="coord" ColumnName="coord" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transports">
+            <EntityTypeMapping TypeName="GestioBusModel.Transport">
+              <MappingFragment StoreEntitySet="Transport">
+                <ScalarProperty Name="matricula" ColumnName="matricula" />
+                <ScalarProperty Name="idLinia" ColumnName="idLinia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="GestioBusModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
