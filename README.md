@@ -9,7 +9,7 @@ Este es un porfolio creado con c# y WebSocket utilizando visual studio.
 
 
 ## ver ejemplo en vivo
-- [https://sergitabernerr.github.io/mi-portafolio/](https://sergitabernerr.github.io/mi-portafolio/)
+- [PortFolio GitHub](https://sergitabernerr.github.io/mi-portafolio/)
 
 
 ## Instalacion
